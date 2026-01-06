@@ -1,1 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marine Data</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Marine Data</h1>
+    <table id="marineTable">
+        <thead>
+            <tr>
+                <th>Fish Species</th>
+                <th>Location</th>
+                <th>Marine Zone</th>
+                <th>Biodiversity Index</th>
+                <th>Salinity</th>
+                <th>Temperature</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
+    <script>
+        // Fetch data from Flask backend
+        fetch('http://127.0.0.1:8000/')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.querySelector("#marineTable tbody");
+                data.forEach(item => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.fish_species}</td>
+                        <td>${item.location}</td>
+                        <td>${item.marine_zone}</td>
+                        <td>${item.biodiversity_index}</td>
+                        <td>${item.salinity}</td>
+                        <td>${item.temperature}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
